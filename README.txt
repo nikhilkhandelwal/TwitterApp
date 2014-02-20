@@ -1,0 +1,1 @@
+This is a twitter client. It displays the users twitter feed and also enables the user to update the status.
