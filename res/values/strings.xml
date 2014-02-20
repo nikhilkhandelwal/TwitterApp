@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Yamba</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="status_update">Status Update</string>
+    <string name="button_update">Update!</string>
+    <string name="status_update_hint">Enter your status update!</string>
+    <string name="start_service">Start Service</string>
+    <string name="stop_service">Stop Service</string>
+    <string name="refresh_service">Refresh Service</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="password_summary">Enter your password</string>
+    <string name="usename">Username</string>
+    <string name="username_summary">Enter your username</string>
+    <string name="server">Server</string>
+    <string name="server_summary">Enter the url of the api</string>
+    <string name="preference">Preference</string>
+    <string name="delay">Delay</string>
+    <string name="delay_summary">Enter the time span for timeline refresh</string>
+    <string-array name="delayNames">
+        <item > 30 seconds</item>
+        <item >15 minutes</item>
+        <item >30 minutes</item>
+        <item >Half hour</item>
+        <item >Half Day</item>
+        <item >Once a Day</item>
+        <item>Never</item>
+    </string-array>
+    
+    <string-array name="delayValues">
+        <item>30000</item>
+        <item >900000</item>
+        <item >1800000</item>
+        <item >3600000</item>
+        <item >43200000</item>
+        <item >86400000</item>
+        <item >0</item>
+    </string-array>
+        <string name="timeline">Timeline</string>
+
+</resources>
