@@ -1,10 +1,13 @@
 package com.example.yamba;
 
 import android.app.ListActivity;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -16,8 +19,9 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
+import android.app.LoaderManager;
 
-public class Timeline extends ListActivity{
+public class Timeline extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	static final String TAG = "TimelineActivity";
 	
@@ -25,8 +29,8 @@ public class Timeline extends ListActivity{
 
 	static final String FROM[] ={ StatusProvider.C_USER,StatusProvider.C_CREATED_AT, StatusProvider.C_TEXT};
 	static final int TO[] = {R.id.text_user , R.id.text_created_at, R.id.text_text};
+	static final int STATUS_LOADER = 47;
 	ListView list;
-	Cursor cursor;
 	SimpleCursorAdapter adapter;
 	
 	TimelineReciever receiver;
@@ -39,11 +43,12 @@ public class Timeline extends ListActivity{
 		
 		
 		
-		cursor = getContentResolver().query(StatusProvider.CONTENT_URI, null, null, null, StatusProvider.C_CREATED_AT+" DESC" );
+		//cursor = getContentResolver().query(StatusProvider.CONTENT_URI, null, null, null, StatusProvider.C_CREATED_AT+" DESC" );
 		
-		adapter = new SimpleCursorAdapter(this, R.layout.row, cursor, FROM, TO);
+		adapter = new SimpleCursorAdapter(this, R.layout.row, null, FROM, TO);
 		
 		adapter.setViewBinder(VIEW_BINDER);
+		getLoaderManager().initLoader(STATUS_LOADER, null, this);
 		
 		setTitle(R.string.timeline);
 		
@@ -142,15 +147,35 @@ public class Timeline extends ListActivity{
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
 			
-			cursor = getContentResolver().query(StatusProvider.CONTENT_URI, null, null, null, StatusProvider.C_CREATED_AT+" DESC" );
+			//cursor = getContentResolver().query(StatusProvider.CONTENT_URI, null, null, null, StatusProvider.C_CREATED_AT+" DESC" );
 			
-			adapter.changeCursor(cursor);
+			getLoaderManager().restartLoader(STATUS_LOADER, null, Timeline.this);
 			
 			Log.d(TAG, "on recieve in timeline reciever"+ intent.getIntExtra("count", 0));
 			
 			
 		}
 		
+	}
+
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+		
+		return new CursorLoader(this, StatusProvider.CONTENT_URI, null, null, null, StatusProvider.C_CREATED_AT+" DESC");
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+		adapter.swapCursor(cursor);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+
+		adapter.swapCursor(null);
 	}
 
 }
