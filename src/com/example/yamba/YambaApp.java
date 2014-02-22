@@ -21,7 +21,6 @@ public class YambaApp extends Application implements OnSharedPreferenceChangeLis
 	static final String ACTION_REFRESH_ALARM = "com.example.yamba.REFRESH_SERVICE";
 	private Twitter twitter;
 	
-	StatusData statusData;
 	
 	SharedPreferences prefs;
 	@Override
@@ -29,7 +28,6 @@ public class YambaApp extends Application implements OnSharedPreferenceChangeLis
 		// TODO Auto-generated method stub
 		super.onCreate();
 		
-		statusData = new StatusData(this);
 		
 		//prefs
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -68,7 +66,10 @@ public class YambaApp extends Application implements OnSharedPreferenceChangeLis
 		try {
 			List<Status> timeline = getTwitter().getUserTimeline();
 			for (Status status : timeline) {
-				statusData.insert(status);
+				//statusData.insert(status);
+				
+				getContentResolver().insert(StatusProvider.CONTENT_URI, StatusProvider.statusToValues(status));
+				
 				if(status.createdAt.getTime()>lastTimeSeen)
 				{
 					count++;

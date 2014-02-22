@@ -23,7 +23,7 @@ public class Timeline extends ListActivity{
 	
 
 
-	static final String FROM[] ={ StatusData.C_USER,StatusData.C_CREATED_AT, StatusData.C_TEXT};
+	static final String FROM[] ={ StatusProvider.C_USER,StatusProvider.C_CREATED_AT, StatusProvider.C_TEXT};
 	static final int TO[] = {R.id.text_user , R.id.text_created_at, R.id.text_text};
 	ListView list;
 	Cursor cursor;
@@ -37,7 +37,9 @@ public class Timeline extends ListActivity{
 		super.onCreate(savedInstanceState);
 		
 		
-		cursor = ((YambaApp) getApplication()).statusData.query();
+		
+		
+		cursor = getContentResolver().query(StatusProvider.CONTENT_URI, null, null, null, StatusProvider.C_CREATED_AT+" DESC" );
 		
 		adapter = new SimpleCursorAdapter(this, R.layout.row, cursor, FROM, TO);
 		
@@ -85,7 +87,7 @@ public class Timeline extends ListActivity{
 			
 			if(view.getId()!= R.id.text_created_at) return false;
 			
-			long time = cursor.getLong(cursor.getColumnIndex(StatusData.C_CREATED_AT));
+			long time = cursor.getLong(cursor.getColumnIndex(StatusProvider.C_CREATED_AT));
 			CharSequence relativeTime = DateUtils.getRelativeTimeSpanString(time);
 			
 			((TextView)view).setText(relativeTime);
@@ -140,7 +142,7 @@ public class Timeline extends ListActivity{
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
 			
-			cursor = ((YambaApp) getApplication()).statusData.query();
+			cursor = getContentResolver().query(StatusProvider.CONTENT_URI, null, null, null, StatusProvider.C_CREATED_AT+" DESC" );
 			
 			adapter.changeCursor(cursor);
 			

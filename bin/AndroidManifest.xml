@@ -39,7 +39,6 @@
          
          <activity android:name=".PrefsActivity"></activity>
          <receiver android:name=".BootReciever">
-             
          <intent-filter >
              <action android:name="com.example.yamba.REFRESH_SERVICE" />
              <action android:name="android.intent.action.TEST_RECIEVER" />
@@ -47,6 +46,7 @@
          </intent-filter>
              
          </receiver>
+         <provider android:name=".StatusProvider" android:authorities="com.example.yamba.provider"></provider>
     </application>
 
 </manifest>

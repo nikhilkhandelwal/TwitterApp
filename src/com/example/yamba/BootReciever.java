@@ -23,12 +23,11 @@ public class BootReciever extends BroadcastReceiver {
 		alaramManager.cancel(lastOp);
 		if(interval>0)
 		{
-		
 		alaramManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), interval, operation);
 		}
+		
 		lastOp=operation;
 		Log.d("BootReciever", "On recieve: delay "+interval);
-		
 		
 	}
 
